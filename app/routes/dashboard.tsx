@@ -1,3 +1,4 @@
+import KmChart from "~/components/KmChart";
 import ProfileHeader from "~/components/ProfileHeader";
 import { useUserInfo } from "~/hooks/useUserInfo";
 
@@ -21,6 +22,8 @@ export default function Dashboard() {
   return (
     <main>
       <ProfileHeader profile={data} />
+      <h2>Vos dernières performances</h2>
+      <KmChart />
     </main>
   );
 }
