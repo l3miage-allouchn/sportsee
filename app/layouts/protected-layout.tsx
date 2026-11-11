@@ -1,12 +1,18 @@
 import { Navigate, Outlet } from "react-router";
-import { getToken } from "~/utils/cookies";
+import { useAuth } from "~/contexts/AuthContext";
+import Header from "~/components/Header";
 
 export default function ProtectedLayout() {
-  const token = getToken();
+  const { token } = useAuth();
 
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }
