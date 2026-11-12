@@ -1,6 +1,6 @@
 import userInfoMock from "~/mocks/user-info.json";
 import userActivityMock from "~/mocks/user-activity.json";
-import { getToken } from "~/utils/cookies";
+import { getToken, removeToken } from "~/utils/cookies";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
@@ -31,9 +31,21 @@ export type SessionApi = {
 };
 
 async function fetchWithToken<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_URL}${path}`, {
-    headers: { Authorization: `Bearer ${getToken()}` },
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    });
+  } catch {
+    throw new Error("Impossible de contacter le serveur. Vérifiez qu'il est bien lancé.");
+  }
+
+  // Token absent (401), invalide ou expiré (403) : on déconnecte l'utilisateur
+  if (response.status === 401 || response.status === 403) {
+    removeToken();
+    window.location.assign("/login");
+    throw new Error("Votre session a expiré, veuillez vous reconnecter.");
+  }
 
   if (!response.ok) {
     throw new Error(`Erreur ${response.status} lors du chargement des données`);

@@ -1,5 +1,7 @@
+import HeartRateChart from "~/components/HeartRateChart";
 import KmChart from "~/components/KmChart";
 import ProfileHeader from "~/components/ProfileHeader";
+import WeekSummary from "~/components/WeekSummary";
 import { useUserInfo } from "~/hooks/useUserInfo";
 
 export function meta() {
@@ -21,9 +23,15 @@ export default function Dashboard() {
 
   return (
     <main>
-      <ProfileHeader profile={data} />
+      <ProfileHeader profile={data} showDistance />
+
       <h2>Vos dernières performances</h2>
-      <KmChart />
+      <div>
+        <KmChart />
+        <HeartRateChart />
+      </div>
+
+      <WeekSummary />
     </main>
   );
 }

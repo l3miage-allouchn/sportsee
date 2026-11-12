@@ -11,11 +11,16 @@ export async function loginRequest(username: string, password: string): Promise<
     return "mock-token";
   }
 
-  const response = await fetch(`${API_URL}/api/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}/api/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+  } catch {
+    throw new Error("Impossible de contacter le serveur. Vérifiez qu'il est bien lancé.");
+  }
 
   if (!response.ok) {
     throw new Error("Identifiant ou mot de passe incorrect");

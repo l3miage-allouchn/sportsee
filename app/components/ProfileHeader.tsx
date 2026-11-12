@@ -2,9 +2,10 @@ import type { UserProfile } from "~/utils/formatters/userInfoFormatter";
 
 type ProfileHeaderProps = {
   profile: UserProfile;
+  showDistance?: boolean;
 };
 
-export default function ProfileHeader({ profile }: ProfileHeaderProps) {
+export default function ProfileHeader({ profile, showDistance = false }: ProfileHeaderProps) {
   return (
     <section>
       <img
@@ -17,10 +18,12 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
         <h1>{profile.fullName}</h1>
         <p>Membre depuis le {profile.memberSince}</p>
       </div>
-      <div>
-        <p>Distance totale parcourue</p>
-        <p>{profile.totalDistance} km</p>
-      </div>
+      {showDistance && (
+        <div>
+          <p>Distance totale parcourue</p>
+          <p>{profile.totalDistance} km</p>
+        </div>
+      )}
     </section>
   );
 }

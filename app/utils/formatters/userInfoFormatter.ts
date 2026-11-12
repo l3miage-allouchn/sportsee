@@ -4,6 +4,7 @@ export type UserProfile = {
   firstName: string;
   fullName: string;
   profilePicture: string;
+  createdAt: string;
   memberSince: string;
   age: number;
   height: string;
@@ -35,6 +36,7 @@ export function formatUserInfo(data: UserInfoApi): UserProfile {
     firstName: profile.firstName,
     fullName: `${profile.firstName} ${profile.lastName}`,
     profilePicture: profile.profilePicture,
+    createdAt: profile.createdAt,
     memberSince: formatDate(profile.createdAt),
     age: profile.age,
     height: formatHeight(profile.height),
