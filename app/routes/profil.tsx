@@ -11,18 +11,18 @@ export default function Profil() {
   const { data, loading, error } = useUserInfo();
 
   if (loading) {
-    return <main><p>Chargement...</p></main>;
+    return <main className="page container"><p className="status">Chargement...</p></main>;
   }
   if (error) {
-    return <main><p role="alert">{error}</p></main>;
+    return <main className="page container"><p role="alert" className="status status--error">{error}</p></main>;
   }
   if (!data) {
     return null;
   }
 
   return (
-    <main>
-      <div>
+    <main className="page container profile">
+      <div className="profile__left">
         <ProfileHeader profile={data} />
         <ProfileDetails profile={data} />
       </div>

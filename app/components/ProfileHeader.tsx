@@ -7,21 +7,25 @@ type ProfileHeaderProps = {
 
 export default function ProfileHeader({ profile, showDistance = false }: ProfileHeaderProps) {
   return (
-    <section>
-      <img
-        src={profile.profilePicture}
-        alt={`Photo de ${profile.fullName}`}
-        width={104}
-        height={117}
-      />
-      <div>
-        <h1>{profile.fullName}</h1>
-        <p>Membre depuis le {profile.memberSince}</p>
-      </div>
-      {showDistance && (
+    <section className="profile-header card">
+      <div className="profile-header__identity">
+        <img
+          src={profile.profilePicture}
+          alt={`Photo de ${profile.fullName}`}
+          width={104}
+          height={117}
+          className="profile-header__picture"
+        />
         <div>
+          <h1 className="profile-header__name">{profile.fullName}</h1>
+          <p className="profile-header__since">Membre depuis le {profile.memberSince}</p>
+        </div>
+      </div>
+
+      {showDistance && (
+        <div className="profile-header__distance">
           <p>Distance totale parcourue</p>
-          <p>{profile.totalDistance} km</p>
+          <p className="profile-header__badge">{profile.totalDistance} km</p>
         </div>
       )}
     </section>

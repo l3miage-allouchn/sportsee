@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from "react";
 import { Navigate, useNavigate } from "react-router";
+import Logo from "~/components/Logo";
 import { useAuth } from "~/contexts/AuthContext";
 import { loginRequest } from "~/services/authService";
 
@@ -37,33 +38,53 @@ export default function Login() {
   }
 
   return (
-    <main>
-      <h1>Se connecter</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Identifiant</label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+    <main className="login">
+      <div className="login__column">
+        <Logo />
 
-        <label htmlFor="password">Mot de passe</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <section className="login__card">
+          <h1 className="login__title">Transformez vos stats en résultats</h1>
+          <h2 className="login__subtitle">Se connecter</h2>
 
-        {error && <p role="alert">{error}</p>}
+          <form onSubmit={handleSubmit} className="login__form">
+            <div className="login__field">
+              <label htmlFor="username" className="login__label">Identifiant</label>
+              <input
+                id="username"
+                type="text"
+                className="login__input"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Connexion..." : "Se connecter"}
-        </button>
-      </form>
+            <div className="login__field">
+              <label htmlFor="password" className="login__label">Mot de passe</label>
+              <input
+                id="password"
+                type="password"
+                className="login__input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            {error && <p role="alert" className="login__error">{error}</p>}
+
+            <button type="submit" className="button" disabled={loading}>
+              {loading ? "Connexion..." : "Se connecter"}
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <div className="login__picture">
+        <p className="login__caption">
+          Analysez vos performances en un clin d'œil, suivez vos progrès et atteignez vos objectifs.
+        </p>
+      </div>
     </main>
   );
 }

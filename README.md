@@ -1,87 +1,92 @@
-# Welcome to React Router!
+# SportSee
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Tableau de bord sportif réalisé dans le cadre du parcours Développeur Front-End d'OpenClassrooms.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+L'utilisateur se connecte, puis consulte ses statistiques de course : kilomètres parcourus par semaine, fréquence cardiaque, objectif de la semaine et informations de profil.
 
-## Features
+## Stack
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- React 19 + TypeScript
+- React Router 8 (mode framework, SSR désactivé)
+- Recharts pour les graphiques
+- Vite
+- CSS natif
 
-## Getting Started
+## Prérequis
 
-### Installation
+- Node.js 22
+- Le backend du projet : https://github.com/OpenClassrooms-Student-Center/P6JS
 
-Install the dependencies:
+## Lancer le projet
+
+### 1. Le backend
 
 ```bash
+git clone https://github.com/OpenClassrooms-Student-Center/P6JS.git backend
+cd backend
 npm install
+npm start
 ```
 
-### Development
+L'API tourne sur http://localhost:8000.
 
-Start the development server with HMR:
+### 2. Le front
 
 ```bash
+git clone https://github.com/l3miage-allouchn/sportsee.git
+cd sportsee
+npm install
+cp .env.example .env
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+L'application est disponible sur http://localhost:5173.
 
-## Building for Production
+## Variables d'environnement
 
-Create a production build:
+| Variable | Rôle |
+|---|---|
+| `VITE_USE_MOCK` | `true` : utilise les données de `app/mocks` (pas besoin du backend). `false` : appelle l'API |
+| `VITE_API_URL` | Adresse du backend, par défaut `http://localhost:8000` |
 
-```bash
-npm run build
-```
+Après une modification du `.env`, il faut relancer `npm run dev`.
 
-## Deployment
+## Comptes de test
 
-### Docker Deployment
+Avec le backend (`VITE_USE_MOCK=false`) :
 
-To build and run using Docker:
+| Identifiant | Mot de passe |
+|---|---|
+| sophiemartin | password123 |
+| marcdubois | password456 |
+| emmaleroy | password789 |
 
-```bash
-docker build -t my-app .
+En mode mock, n'importe quel identifiant permet de se connecter.
 
-# Run the container
-docker run -p 3000:3000 my-app
-```
+## Scripts
 
-The containerized application can be deployed to any platform that supports Docker, including:
+| Commande | Description |
+|---|---|
+| `npm run dev` | Serveur de développement |
+| `npm run build` | Build de production dans `build/` |
+| `npm run typecheck` | Vérification des types TypeScript |
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## Organisation du code
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+app/
+├── routes.ts          déclaration des routes
+├── routes/            pages : login, dashboard, profil, 404
+├── layouts/           layout protégé (redirige vers /login sans token)
+├── components/        composants d'affichage et graphiques
+├── contexts/          AuthContext : token et déconnexion
+├── services/          appels à l'API (fetch), sans React
+├── hooks/             useUserInfo, useUserActivity → { data, loading, error }
+├── utils/formatters/  mise en forme des données de l'API pour les composants
+├── utils/             cookies, dates, couleurs
+└── mocks/             données de test au format de l'API
 ```
 
-## Styling
+## Authentification
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+Le login envoie un `POST /api/login`. Le token JWT renvoyé est stocké dans un cookie, puis envoyé dans l'en-tête `Authorization: Bearer <token>` à chaque requête. Si l'API répond 401 ou 403, le cookie est supprimé et l'utilisateur est renvoyé vers la page de connexion.

@@ -12,24 +12,26 @@ export default function Dashboard() {
   const { data, loading, error } = useUserInfo();
 
   if (loading) {
-    return <main><p>Chargement...</p></main>;
+    return <main className="page container"><p className="status">Chargement...</p></main>;
   }
   if (error) {
-    return <main><p role="alert">{error}</p></main>;
+    return <main className="page container"><p role="alert" className="status status--error">{error}</p></main>;
   }
   if (!data) {
     return null;
   }
 
   return (
-    <main>
+    <main className="page container dashboard">
       <ProfileHeader profile={data} showDistance />
 
-      <h2>Vos dernières performances</h2>
-      <div>
-        <KmChart />
-        <HeartRateChart />
-      </div>
+      <section className="dashboard__section">
+        <h2 className="section-title">Vos dernières performances</h2>
+        <div className="dashboard__charts">
+          <KmChart />
+          <HeartRateChart />
+        </div>
+      </section>
 
       <WeekSummary />
     </main>

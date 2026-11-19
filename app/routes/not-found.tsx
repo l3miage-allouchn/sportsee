@@ -6,10 +6,10 @@ export function meta() {
 
 export default function NotFound() {
   return (
-    <main>
-      <h1>404</h1>
+    <main className="not-found">
+      <h1 className="not-found__code">404</h1>
       <p>Oups ! La page que vous demandez n'existe pas.</p>
-      <Link to="/">Retour à l'accueil</Link>
+      <Link to="/" className="not-found__link">Retour à l'accueil</Link>
     </main>
   );
 }

@@ -13,22 +13,23 @@ export default function ProfileStats({ profile }: ProfileStatsProps) {
 
   return (
     <section>
-      <h2>Vos statistiques</h2>
-      <p>depuis le {profile.memberSince}</p>
+      <h2 className="section-title">Vos statistiques</h2>
+      <p className="section-subtitle">depuis le {profile.memberSince}</p>
 
-      {loading && <p>Chargement...</p>}
-      {error && <p role="alert">{error}</p>}
+      {loading && <p className="status">Chargement...</p>}
+      {error && <p role="alert" className="status status--error">{error}</p>}
 
-      <div>
+      <div className="profile-stats__grid">
         <StatCard
           label="Temps total couru"
           value={`${profile.totalDuration.hours}h`}
           unit={`${profile.totalDuration.minutes}min`}
+          color="blue"
         />
-        {data && <StatCard label="Calories brûlées" value={data.totalCalories} unit="cal" />}
-        <StatCard label="Distance totale parcourue" value={profile.totalDistance} unit="km" />
-        {data && <StatCard label="Nombre de jours de repos" value={data.restDays} unit="jours" />}
-        <StatCard label="Nombre de sessions" value={profile.totalSessions} unit="sessions" />
+        {data && <StatCard label="Calories brûlées" value={data.totalCalories} unit="cal" color="blue" />}
+        <StatCard label="Distance totale parcourue" value={profile.totalDistance} unit="km" color="blue" />
+        {data && <StatCard label="Nombre de jours de repos" value={data.restDays} unit="jours" color="blue" />}
+        <StatCard label="Nombre de sessions" value={profile.totalSessions} unit="sessions" color="blue" />
       </div>
     </section>
   );

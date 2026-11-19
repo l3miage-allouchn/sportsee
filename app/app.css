@@ -1,15 +1,617 @@
-@import "tailwindcss";
+/* =========================================================
+   1. Variables : les couleurs et tailles de la maquette Figma
+   ========================================================= */
+:root {
+  --color-primary: #0b23f4;
+  --color-primary-dark: #0819b8;
+  --color-primary-light: #b6bdfc;
+  --color-red: #f4320b;
+  --color-red-light: #fcc1b6;
+  --color-background: #f2f3ff;
+  --color-white: #ffffff;
+  --color-text: #111111;
+  --color-text-light: #707070;
+  --color-border: #dddddd;
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --radius-small: 10px;
+  --radius-large: 20px;
+  --shadow: 0 4px 40px rgba(11, 35, 244, 0.06);
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+/* =========================================================
+   2. Base : remise à zéro et styles par défaut
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+/* =========================================================
+   3. Mise en page commune
+   ========================================================= */
+
+/* Largeur max 1140px, centré, avec une marge sur les côtés (lisible en 1024px) */
+.container {
+  width: min(1140px, 100% - 80px);
+  margin-inline: auto;
+}
+
+/* Pages connectées : le footer reste en bas même si la page est courte */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page {
+  flex: 1;
+  padding-block: 108px 80px;
+}
+
+/* Bloc blanc arrondi réutilisé partout */
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.section-subtitle {
+  margin-top: 8px;
+  font-size: 16px;
+  color: var(--color-text-light);
+}
+
+.status {
+  color: var(--color-text-light);
+}
+
+.status--error {
+  color: var(--color-red);
+}
+
+/* =========================================================
+   4. Logo
+   ========================================================= */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo__text {
+  font-size: 28px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -1px;
+  color: var(--color-primary);
+}
+
+/* =========================================================
+   5. Header et menu
+   ========================================================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 35px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  height: 49px;
+  padding-inline: 46px;
+  background-color: var(--color-white);
+  border-radius: 30px;
+  font-size: 14px;
+}
+
+.menu__link:hover,
+.menu__link.active {
+  color: var(--color-primary);
+}
+
+.menu__link.active {
+  font-weight: 600;
+}
+
+/* Le trait bleu vertical avant "Se déconnecter" */
+.menu__logout {
+  padding: 0 0 0 40px;
+  border: none;
+  border-left: 1px solid var(--color-primary);
+  background: none;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.menu__logout:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   6. Footer
+   ========================================================= */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 41px;
+  padding-inline: 100px;
+  background-color: var(--color-white);
+  font-size: 14px;
+}
+
+.footer__group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* =========================================================
+   7. Page de connexion
+   ========================================================= */
+.login {
+  display: grid;
+  grid-template-columns: minmax(500px, 632px) 1fr;
+  min-height: 100vh;
+}
+
+.login__column {
+  padding: 55px 100px;
+}
+
+.login__card {
+  max-width: 398px;
+  margin-top: 150px;
+  padding: 40px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow);
+}
+
+.login__title {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.login__subtitle {
+  margin-top: 40px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login__label {
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.login__input {
+  height: 52px;
+  padding-inline: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+}
+
+.login__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.login__error {
+  font-size: 14px;
+  color: var(--color-red);
+}
+
+.button {
+  height: 51px;
+  margin-top: 16px;
+  border: none;
+  border-radius: var(--radius-small);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.button:disabled {
+  background-color: var(--color-primary-light);
+  cursor: not-allowed;
+}
+
+/* Colonne de droite : la photo (fond bleu si l'image n'est pas encore ajoutée) */
+.login__picture {
+  position: relative;
+  background: var(--color-primary) url("/login-background.jpg") center / cover no-repeat;
+}
+
+.login__caption {
+  position: absolute;
+  right: 24px;
+  bottom: 29px;
+  width: 288px;
+  padding: 16px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-small);
+  font-size: 12px;
+  color: var(--color-primary);
+}
+
+/* =========================================================
+   8. Bannière du profil (Dashboard et Profil)
+   ========================================================= */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px;
+}
+
+.profile-header__identity {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.profile-header__picture {
+  border-radius: var(--radius-small);
+  object-fit: cover;
+}
+
+.profile-header__name {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.profile-header__since {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.profile-header__distance {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.profile-header__badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 183px;
+  height: 90px;
+  border-radius: var(--radius-small);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   9. Dashboard
+   ========================================================= */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  padding-inline: 44px;
+}
+
+.dashboard__section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Les deux graphiques côte à côte (445px et 583px sur la maquette) */
+.dashboard__charts {
+  display: grid;
+  grid-template-columns: 445fr 583fr;
+  gap: 24px;
+}
+
+/* =========================================================
+   10. Cartes des graphiques
+   ========================================================= */
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 484px;
+  padding: 30px 38px;
+}
+
+/* flex-wrap : en 1024px, les flèches passent sous le titre s'il n'y a pas la place */
+.chart-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.chart-card__title {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.chart-card__title--red {
+  color: var(--color-red);
+}
+
+.chart-card__subtitle {
+  margin: 12px 0 32px;
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+/* Les flèches ‹ › et les dates */
+.chart-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.chart-nav__button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--color-text-light);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chart-nav__button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.chart-nav__button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Légende personnalisée sous les graphiques (alignée à gauche comme sur la maquette) */
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.chart-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* =========================================================
+   11. Bloc "Cette semaine"
+   ========================================================= */
+.week-summary__content {
+  display: grid;
+  grid-template-columns: 450fr 572fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.week-summary__goal {
+  padding: 30px 36px;
+}
+
+.week-summary__count {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.week-summary__count span {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary-light);
+}
+
+.week-summary__label {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.week-summary__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =========================================================
+   12. Petites cartes de statistiques (StatCard)
+   ========================================================= */
+.stat-card {
+  padding: 20px 30px;
+  border-radius: var(--radius-small);
+  background-color: var(--color-white);
+}
+
+.stat-card__label {
+  font-size: 14px;
+}
+
+.stat-card__value {
+  margin-top: 18px;
+  font-size: 16px;
+  color: var(--color-primary-light);
+}
+
+.stat-card__value strong {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* Variante rouge (Distance de la semaine) */
+.stat-card--red .stat-card__value {
+  color: var(--color-red-light);
+}
+
+.stat-card--red .stat-card__value strong {
+  color: var(--color-red);
+}
+
+/* Variante bleue (page Profil) */
+.stat-card--blue {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.stat-card--blue .stat-card__value,
+.stat-card--blue .stat-card__value strong {
+  color: var(--color-white);
+}
+
+.stat-card--blue .stat-card__value {
+  opacity: 0.85;
+}
+
+/* =========================================================
+   13. Page Profil
+   ========================================================= */
+.profile {
+  display: grid;
+  grid-template-columns: 508fr 575fr;
+  gap: 57px;
+  align-items: start;
+}
+
+.profile__left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-details {
+  padding: 40px 28px 60px;
+}
+
+.profile-details__title {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.profile-details__list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 32px;
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-light);
+}
+
+.profile-stats__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 19px;
+  margin-top: 32px;
+}
+
+/* =========================================================
+   14. Page 404 et page d'erreur
+   ========================================================= */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.not-found__code {
+  font-size: 96px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.not-found__link {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.error-page {
+  padding: 64px 16px;
+}
+
+.error-page pre {
+  overflow-x: auto;
 }

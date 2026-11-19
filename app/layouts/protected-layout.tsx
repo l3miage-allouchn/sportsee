@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuth } from "~/contexts/AuthContext";
+import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 
 export default function ProtectedLayout() {
@@ -10,9 +11,10 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <>
+    <div className="app">
       <Header />
       <Outlet />
-    </>
+      <Footer />
+    </div>
   );
 }
