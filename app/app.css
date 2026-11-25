@@ -485,6 +485,32 @@ img {
   font-size: 14px;
 }
 
+/* Le donut sert de repère pour placer les deux labels autour */
+.week-summary__chart {
+  position: relative;
+}
+
+.week-summary__legend {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+/* En haut à droite du donut */
+.week-summary__legend--remaining {
+  top: 10px;
+  left: calc(50% + 60px);
+}
+
+/* En bas à gauche du donut */
+.week-summary__legend--done {
+  bottom: 30px;
+  right: calc(50% + 70px);
+}
+
 .week-summary__stats {
   display: flex;
   flex-direction: column;
